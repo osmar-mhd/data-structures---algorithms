@@ -1,0 +1,56 @@
+Clase EcuacionCuadratica
+    Atributos:
+        a, b, c : Número
+    
+    Constructor(a, b, c):
+        asignar a a
+        asignar b b
+        asignar c c
+    
+    Método resolver():
+        discriminante = b^2 - 4 * a * c
+        
+        Si discriminante > 0:
+            raízDiscriminante = √discriminante
+            x1 = (-b + raízDiscriminante) / (2 * a)
+            x2 = (-b - raízDiscriminante) / (2 * a)
+            retornar {"tipo": "real", "raíces": [x1, x2]}
+        
+        Sino si discriminante == 0:
+            x = -b / (2 * a)
+            retornar {"tipo": "única", "raíces": [x]}
+        
+        Sino:
+            retornar {"tipo": "complejas", "raíces": []}
+
+Clase GestorEcuaciones
+    Atributos:
+        resultadoActual : Diccionario
+    
+    Método calcular(a, b, c):
+        ecuacion = Nueva EcuacionCuadratica(a, b, c)
+        resultadoActual = ecuacion.resolver()
+    
+    Método mostrarResultado():
+        Si resultadoActual es nulo:
+            mostrar "No hay resultados disponibles."
+        
+        Sino si resultadoActual["tipo"] es "real":
+            mostrar "Raíces reales: ", resultadoActual["raíces"][0], " y ", resultadoActual["raíces"][1]
+        
+        Sino si resultadoActual["tipo"] es "única":
+            mostrar "Raíz única: ", resultadoActual["raíces"][0]
+        
+        Sino:
+            mostrar "No hay raíces reales (raíces complejas)"
+
+Inicio del Programa
+    Instanciar un nuevo GestorEcuaciones llamado gestor
+    
+    a = leer "Ingrese el coeficiente a: "
+    b = leer "Ingrese el coeficiente b: "
+    c = leer "Ingrese el coeficiente c: "
+    
+    gestor.calcular(a, b, c)
+    gestor.mostrarResultado()
+Fin del Programa

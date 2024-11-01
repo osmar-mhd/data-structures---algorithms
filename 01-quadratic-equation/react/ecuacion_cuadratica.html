@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecuación Cuadrática con React y CDN</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // Clase para representar la Ecuación Cuadrática
+    class QuadraticEquation {
+      constructor(a, b, c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+      }
+
+      solve() {
+        const discriminant = this.b ** 2 - 4 * this.a * this.c;
+        if (discriminant > 0) {
+          const rootDisc = Math.sqrt(discriminant);
+          const x1 = (-this.b + rootDisc) / (2 * this.a);
+          const x2 = (-this.b - rootDisc) / (2 * this.a);
+          return { roots: [x1, x2], type: "real" };
+        } else if (discriminant === 0) {
+          const x = -this.b / (2 * this.a);
+          return { roots: [x], type: "single" };
+        } else {
+          return { roots: [], type: "complex" };
+        }
+      }
+    }
+
+    // Componente React para la entrada de datos
+    function QuadraticForm({ onSolve }) {
+      const [a, setA] = React.useState("");
+      const [b, setB] = React.useState("");
+      const [c, setC] = React.useState("");
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        const equation = new QuadraticEquation(parseFloat(a), parseFloat(b), parseFloat(c));
+        onSolve(equation.solve());
+      };
+
+      return (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Coeficiente a:</label>
+            <input type="number" value={a} onChange={(e) => setA(e.target.value)} required />
+          </div>
+          <div>
+            <label>Coeficiente b:</label>
+            <input type="number" value={b} onChange={(e) => setB(e.target.value)} required />
+          </div>
+          <div>
+            <label>Coeficiente c:</label>
+            <input type="number" value={c} onChange={(e) => setC(e.target.value)} required />
+          </div>
+          <button type="submit">Resolver</button>
+        </form>
+      );
+    }
+
+    // Componente para mostrar los resultados
+    function Results({ result }) {
+      if (!result) return null;
+
+      if (result.type === "real") {
+        return <p>Raíces reales: {result.roots[0]} y {result.roots[1]}</p>;
+      } else if (result.type === "single") {
+        return <p>Una raíz real: {result.roots[0]}</p>;
+      } else {
+        return <p>No hay raíces reales (raíces complejas)</p>;
+      }
+    }
+
+    // Componente principal de la aplicación
+    function App() {
+      const [result, setResult] = React.useState(null);
+
+      const handleSolve = (solution) => {
+        setResult(solution);
+      };
+
+      return (
+        <div>
+          <h1>Ecuación Cuadrática</h1>
+          <QuadraticForm onSolve={handleSolve} />
+          <Results result={result} />
+        </div>
+      );
+    }
+
+    // Renderizar la aplicación en el DOM
+    ReactDOM.createRoot(document.getElementById("app")).render(<App />);
+  </script>
+</body>
+</html>
