@@ -1,0 +1,18 @@
+Clase Circulo
+    Atributo:
+        radio
+    
+    Constructor(radio)
+        Asignar radio al atributo radio del círculo
+    
+    Método calcular_area()
+        Devolver PI * radio * radio
+Fin Clase
+
+Inicio del Programa
+    Crear instancia de Circulo
+    Pedir al usuario el valor del radio
+    Llamar a inicializar(radio) con el valor ingresado
+    Llamar a calcular_area() y guardar el resultado en area
+    Mostrar "El área del círculo es:", area
+Fin del Programa
